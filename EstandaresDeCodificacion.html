@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estándares de Codificación por Lenguaje</title>
+  <style>
+    :root {
+      --primary: #4285F4;
+      --secondary: #34A853;
+      --accent: #FBBC05;
+      --danger: #EA4335;
+      --dark: #2c3e50;
+      --light: #f9f9f9;
+      --code-bg: #282c34;
+      --code-text: #abb2bf;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    h1 {
+      color: var(--dark);
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 15px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .language-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .language-btn {
+      padding: 12px 18px;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .language-btn:nth-child(1) { background-color: #F0DB4F; color: #323330; } /* JavaScript */
+    .language-btn:nth-child(2) { background-color: #3776AB; } /* Python */
+    .language-btn:nth-child(3) { background-color: #007396; } /* Java */
+    .language-btn:nth-child(4) { background-color: #6A1577; } /* C# */
+    .language-btn:nth-child(5) { background-color: #00599C; } /* C++ */
+
+    .language-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+
+    .language-btn.active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    .language-content {
+      display: none;
+      background-color: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+      animation: fadeIn 0.5s ease;
+      border-top: 5px solid var(--primary);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .language-content.active {
+      display: block;
+    }
+
+    .language-content#javascript { border-color: #F0DB4F; }
+    .language-content#python { border-color: #3776AB; }
+    .language-content#java { border-color: #007396; }
+    .language-content#csharp { border-color: #6A1577; }
+    .language-content#cpp { border-color: #00599C; }
+
+    h2 {
+      color: var(--primary);
+      margin-top: 0;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+    }
+
+    h3 {
+      color: var(--secondary);
+      border-left: 4px solid var(--accent);
+      padding-left: 10px;
+      margin-top: 25px;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    li::before {
+      content: "•";
+      color: var(--primary);
+      font-weight: bold;
+      display: inline-block;
+      width: 1em;
+      margin-left: -1em;
+    }
+
+    .highlight {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 15px 0;
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+      border-left: 4px solid var(--primary);
+    }
+
+    .language-content#javascript .highlight { border-left-color: #F0DB4F; }
+    .language-content#python .highlight { border-left-color: #3776AB; }
+    .language-content#java .highlight { border-left-color: #007396; }
+    .language-content#csharp .highlight { border-left-color: #6A1577; }
+    .language-content#cpp .highlight { border-left-color: #00599C; }
+
+    code {
+      font-family: 'Courier New', Courier, monospace;
+      background-color: var(--code-bg);
+      color: var(--code-text);
+      padding: 15px;
+      border-radius: 5px;
+      display: block;
+      overflow-x: auto;
+      line-height: 1.5;
+    }
+
+    .comment { color: #98c379; }
+    .keyword { color: #c678dd; }
+    .string { color: #e5c07b; }
+    .function { color: #61afef; }
+    .variable { color: #d19a66; }
+    .type { color: #56b6c2; }
+
+    .resources {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: rgba(52, 168, 83, 0.1);
+      border-radius: 8px;
+      border-left: 4px solid var(--secondary);
+    }
+
+    .resources h3 {
+      color: var(--secondary);
+      border-left: none;
+      padding-left: 0;
+    }
+
+    .resources ul li::before {
+      color: var(--secondary);
+    }
+
+    .section-card {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .section-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      background-color: var(--dark);
+      color: white;
+      border-radius: 8px;
+    }
+
+    .language-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 0.8em;
+      font-weight: bold;
+      color: white;
+      background-color: var(--accent);
+      margin-left: 5px;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      .language-btn {
+        padding: 10px 15px;
+        font-size: 0.9em;
+      }
+      .language-content {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+<h1>🚀 Estándares de Codificación por Lenguaje</h1>
+
+<div class="container">
+  <div class="language-selector">
+    <button class="language-btn active" data-lang="javascript">JavaScript</button>
+    <button class="language-btn" data-lang="python">Python</button>
+    <button class="language-btn" data-lang="java">Java</button>
+    <button class="language-btn" data-lang="csharp">C#</button>
+    <button class="language-btn" data-lang="cpp">C++</button>
+  </div>
+
+  <div id="javascript" class="language-content active">
+    <h2>📜 Estándares de Codificación para JavaScript</h2>
+
+    <div class="section-card">
+      <h3>🏷️ Convenciones de Nomenclatura</h3>
+      <ul>
+        <li><strong>Variables y funciones:</strong> camelCase <span class="badge">Recomendado</span> <br>(ej. <code class="inline">nombreUsuario</code>, <code class="inline">calcularTotal()</code>)</li>
+        <li><strong>Clases:</strong> PascalCase <br>(ej. <code class="inline">Usuario</code>, <code class="inline">CarritoCompra</code>)</li>
+        <li><strong>Constantes:</strong> UPPER_SNAKE_CASE <br>(ej. <code class="inline">MAX_ITEMS</code>, <code class="inline">API_KEY</code>)</li>
+        <li><strong>Componentes (React/Vue):</strong> PascalCase <br>(ej. <code class="inline">UserProfile</code>)</li>
+        <li><strong>Nombres de archivos:</strong> camelCase.js o kebab-case.js</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <h3>📏 Formato de Código</h3>
+      <ul>
+        <li>Utilizar 2 espacios para la indentación</li>
+        <li>Líneas de máximo 80-100 caracteres</li>
+        <li>Utilizar punto y coma al final de cada declaración</li>
+        <li>Usar comillas simples para cadenas de texto</li>
+        <li>Añadir un espacio antes y después de operadores</li>
+      </ul>
+    </div>
+
+    <div class="highlight">
+      <p><strong>✨ Ejemplo de buenas prácticas:</strong></p>
+      <code>
+        <span class="comment">// Constantes en mayúsculas</span><br>
+        <span class="keyword">const</span> <span class="variable">MAX_USERS</span> = <span class="string">50</span>;<br><br>
+
+        <span class="comment">// Función con camelCase</span><br>
+        <span class="keyword">function</span> <span class="function">calcularTotal</span>(<span class="variable">items</span>) {<br>
+        &nbsp;&nbsp;<span class="keyword">let</span> <span class="variable">suma</span> = <span class="string">0</span>;<br>
+        &nbsp;&nbsp;<span class="keyword">for</span> (<span class="keyword">let</span> <span class="variable">i</span> = <span class="string">0</span>; <span class="variable">i</span> < <span class="variable">items</span>.length; <span class="variable">i</span>++) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="variable">suma</span> += <span class="variable">items</span>[<span class="variable">i</span>].<span class="variable">precio</span>;<br>
+        &nbsp;&nbsp;}<br>
+        &nbsp;&nbsp;<span class="keyword">return</span> <span class="variable">suma</span>;<br>
+        }<br><br>
+
+        <span class="comment">// Clase con PascalCase</span><br>
+        <span class="keyword">class</span> <span class="type">Usuario</span> {<br>
+        &nbsp;&nbsp;<span class="function">constructor</span>(<span class="variable">nombre</span>, <span class="variable">email</span>) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.<span class="variable">nombre</span> = <span class="variable">nombre</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.<span class="variable">email</span> = <span class="variable">email</span>;<br>
+        &nbsp;&nbsp;}<br>
+        }
+      </code>
+    </div>
+
+    <div class="section-card">
+      <h3>📚 Guías de Estilo Populares</h3>
+      <ul>
+        <li><strong>ESLint:</strong> Herramienta para identificar y corregir problemas en código JavaScript</li>
+        <li><strong>Airbnb JavaScript Style Guide:</strong> Una de las guías más populares y estrictas</li>
+        <li><strong>Standard JS:</strong> Guía sin punto y coma, popular en proyectos de código abierto</li>
+        <li><strong>Google JavaScript Style Guide:</strong> Guía oficial de Google</li>
+      </ul>
+    </div>
+
+    <div class="resources">
+      <h3>📖 Recursos</h3>
+      <ul>
+        <li>Airbnb JavaScript Style Guide</li>
+        <li>Google JavaScript Style Guide</li>
+        <li>MDN Web Docs - JavaScript</li>
+        <li>ESLint - Linting utility</li>
+        <li>Prettier - Code formatter</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="python" class="language-content">
+    <h2>🐍 Estándares de Codificación para Python</h2>
+
+    <div class="section-card">
+      <h3>📋 PEP 8 - Guía de Estilo</h3>
+      <p>PEP 8 es la guía de estilo oficial para código Python, creada para mejorar la legibilidad y consistencia.</p>
+    </div>
+
+    <div class="section-card">
+      <h3>🏷️ Convenciones de Nomenclatura</h3>
+      <ul>
+        <li><strong>Variables y funciones:</strong> snake_case <span class="badge">Recomendado</span> <br>(ej. <code class="inline">nombre_usuario</code>, <code class="inline">calcular_total()</code>)</li>
+        <li><strong>Clases:</strong> PascalCase <br>(ej. <code class="inline">Usuario</code>, <code class="inline">CarritoCompra</code>)</li>
+        <li><strong>Constantes:</strong> UPPER_SNAKE_CASE <br>(ej. <code class="inline">MAX_ITEMS</code>, <code class="inline">API_KEY</code>)</li>
+        <li><strong>Métodos privados:</strong> con guion bajo inicial <br>(ej. <code class="inline">_metodo_privado()</code>)</li>
+        <li><strong>Nombres de archivos:</strong> snake_case.py</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <h3>📏 Formato de Código</h3>
+      <ul>
+        <li>Utilizar 4 espacios para la indentación (no tabulaciones)</li>
+        <li>Líneas de máximo 79 caracteres para código, 72 para comentarios</li>
+        <li>Importaciones en líneas separadas, agrupadas en el orden: biblioteca estándar, terceros, propias</li>
+        <li>Una línea en blanco entre funciones y clases</li>
+      </ul>
+    </div>
+
+    <div class="highlight">
+      <p><strong>✨ Ejemplo de buenas prácticas:</strong></p>
+      <code>
+        <span class="comment"># Constante en mayúsculas</span><br>
+        <span class="variable">MAX_USERS</span> = <span class="string">50</span><br><br>
+
+        <span class="comment"># Función con snake_case</span><br>
+        <span class="keyword">def</span> <span class="function">calcular_total</span>(<span class="variable">items</span>):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"""Calcula el total de una lista de items."""</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> <span class="function">sum</span>(<span class="variable">item</span>.<span class="variable">precio</span> <span class="keyword">for</span> <span class="variable">item</span> <span class="keyword">in</span> <span class="variable">items</span>)<br><br>
+
+        <span class="comment"># Clase con PascalCase</span><br>
+        <span class="keyword">class</span> <span class="type">Usuario</span>:<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"""Clase para representar usuarios en el sistema."""</span><br><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">def</span> <span class="function">__init__</span>(<span class="keyword">self</span>, <span class="variable">nombre</span>, <span class="variable">email</span>):<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">self</span>.<span class="variable">nombre</span> = <span class="variable">nombre</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">self</span>.<span class="variable">email</span> = <span class="variable">email</span><br>
+      </code>
+    </div>
+
+    <div class="section-card">
+      <h3>🔍 Herramientas de Verificación</h3>
+      <ul>
+        <li><strong>Flake8:</strong> Combina PyFlakes, pycodestyle y McCabe para linting y verificación de estilo</li>
+        <li><strong>Black:</strong> Formateador de código sin configuración, creado para estandarizar el estilo</li>
+        <li><strong>isort:</strong> Ordena y formatea las importaciones automáticamente</li>
+        <li><strong>pylint:</strong> Analizador de código estático que verifica errores y adherencia a estándares</li>
+      </ul>
+    </div>
+
+    <div class="resources">
+      <h3>📖 Recursos</h3>
+      <ul>
+        <li>PEP 8 - Style Guide for Python Code</li>
+        <li>PEP 257 - Docstring Conventions</li>
+        <li>The Hitchhiker's Guide to Python</li>
+        <li>Google Python Style Guide</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="java" class="language-content">
+    <h2>☕ Estándares de Codificación para Java</h2>
+
+    <div class="section-card">
+      <h3>🏷️ Convenciones de Nomenclatura</h3>
+      <ul>
+        <li><strong>Variables y métodos:</strong> camelCase <span class="badge">Recomendado</span> <br>(ej. <code class="inline">nombreUsuario</code>, <code class="inline">calcularTotal()</code>)</li>
+        <li><strong>Clases e interfaces:</strong> PascalCase <br>(ej. <code class="inline">Usuario</code>, <code class="inline">Serializable</code>)</li>
+        <li><strong>Constantes:</strong> UPPER_SNAKE_CASE <br>(ej. <code class="inline">MAX_ITEMS</code>, <code class="inline">DEFAULT_TIMEOUT</code>)</li>
+        <li><strong>Paquetes:</strong> todo en minúsculas, usando notación de dominio invertido <br>(ej. <code class="inline">com.empresa.proyecto</code>)</li>
+        <li><strong>Nombres de archivos:</strong> PascalCase.java (igual que la clase que contienen)</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <h3>📏 Formato de Código</h3>
+      <ul>
+        <li>Utilizar 4 espacios para indentación (no tabulaciones)</li>
+        <li>Líneas de máximo 80-100 caracteres</li>
+        <li>Llaves en la misma línea para declaraciones de clase/método (estilo K&R)</li>
+        <li>Una declaración por línea</li>
+        <li>Espacios alrededor de operadores</li>
+        <li>Organizar imports: java, javax, luego otros paquetes ordenados alfabéticamente</li>
+      </ul>
+    </div>
+
+    <div class="highlight">
+      <p><strong>✨ Ejemplo de buenas prácticas:</strong></p>
+      <code>
+        <span class="keyword">package</span> <span class="variable">com.empresa.proyecto</span>;<br><br>
+
+        <span class="keyword">import</span> <span class="variable">java.time.LocalDate</span>;<br>
+        <span class="keyword">import</span> <span class="variable">java.util.ArrayList</span>;<br><br>
+
+        <span class="comment">/**<br>
+ * Clase que representa un usuario en el sistema.<br>
+ */</span><br>
+        <span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Usuario</span> {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Constante en mayúsculas</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">int</span> <span class="variable">MAX_INTENTOS</span> = <span class="string">3</span>;<br><br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> <span class="type">String</span> <span class="variable">nombre</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> <span class="type">String</span> <span class="variable">email</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> <span class="type">LocalDate</span> <span class="variable">fechaRegistro</span>;<br><br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">/**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Constructor para crear un nuevo usuario.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="function">Usuario</span>(<span class="type">String</span> <span class="variable">nombre</span>, <span class="type">String</span> <span class="variable">email</span>) {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.<span class="variable">nombre</span> = <span class="variable">nombre</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.<span class="variable">email</span> = <span class="variable">email</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">this</span>.<span class="variable">fechaRegistro</span> = <span class="type">LocalDate</span>.<span class="function">now</span>();<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+      </code>
+    </div>
+
+    <div class="section-card">
+      <h3>🔧 Herramientas</h3>
+      <ul>
+        <li><strong>Checkstyle:</strong> Analiza el código para verificar adherencia a estándares</li>
+        <li><strong>PMD:</strong> Detecta posibles bugs, código muerto, expresiones complicadas, etc.</li>
+        <li><strong>SpotBugs:</strong> Sucesor de FindBugs, detecta posibles errores</li>
+        <li><strong>SonarQube:</strong> Plataforma para análisis de calidad de código</li>
+      </ul>
+    </div>
+
+    <div class="resources">
+      <h3>📖 Recursos</h3>
+      <ul>
+        <li>Google Java Style Guide</li>
+        <li>Oracle's Code Conventions for Java</li>
+        <li>Effective Java (libro de Joshua Bloch)</li>
+        <li>Clean Code (libro de Robert C. Martin)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="csharp" class="language-content">
+    <h2>🔷 Estándares de Codificación para C#</h2>
+
+    <div class="section-card">
+      <h3>🏷️ Convenciones de Nomenclatura</h3>
+      <ul>
+        <li><strong>Variables locales:</strong> camelCase <br>(ej. <code class="inline">nombreUsuario</code>)</li>
+        <li><strong>Parámetros:</strong> camelCase <br>(ej. <code class="inline">idUsuario</code>)</li>
+        <li><strong>Clases e interfaces:</strong> PascalCase <span class="badge">Recomendado</span> <br>(ej. <code class="inline">Usuario</code>, <code class="inline">IRepositorio</code>)</li>
+        <li><strong>Métodos:</strong> PascalCase <br>(ej. <code class="inline">CalcularTotal</code>)</li>
+        <li><strong>Propiedades:</strong> PascalCase <br>(ej. <code class="inline">NombreCompleto</code>)</li>
+        <li><strong>Campos privados:</strong> _camelCase <br>(ej. <code class="inline">_contador</code>)</li>
+        <li><strong>Constantes:</strong> PascalCase <br>(ej. <code class="inline">MaxUsuarios</code>)</li>
+        <li><strong>Interfaces:</strong> con prefijo "I" <br>(ej. <code class="inline">IDisposable</code>)</li>
+      </ul>
+    </div>
+
+    <div class="section-card">
+      <h3>📏 Formato de Código</h3>
+      <ul>
+        <li>Utilizar 4 espacios para indentación</li>
+        <li>Llaves en nueva línea (estilo Allman)</li>
+        <li>Una declaración por línea</li>
+        <li>Usar var cuando el tipo sea obvio, tipo explícito en caso contrario</li>
+        <li>Usar #region con moderación o evitarlos</li>
+        <li>Espacios alrededor de operadores</li>
+      </ul>
+    </div>
+
+    <div class="highlight">
+      <p><strong>✨ Ejemplo de buenas prácticas:</strong></p>
+      <code>
+        <span class="keyword">using</span> <span class="variable">System</span>;<br>
+        <span class="keyword">using</span> <span class="variable">System.Collections.Generic</span>;<br><br>
+
+        <span class="keyword">namespace</span> <span class="variable">MiEmpresa.Core.Models</span><br>
+        {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">/// &lt;summary&gt;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;/// Representa un usuario en el sistema.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;/// &lt;/summary&gt;</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">Usuario</span> : <span class="type">IEntidad</span><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> <span class="keyword">const</span> <span class="type">int</span> <span class="variable">MaxIntentos</span> = <span class="string">3</span>;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private</span> <span class="keyword">readonly</span> <span class="type">string</span> <span class="variable">_clave</span>;<br><br>
+
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="type">int</span> <span class="variable">Id</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="type">string</span> <span class="variable">Nombre</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="type">string</span> <span class="variable">Email</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+        }
+      </code>
+    </div>
+
+    <div class="section-card">
+      <h3>🔧 Herramientas</h3>
+      <ul>
+        <li><strong>StyleCop:</strong> Analiza código C# para verificar el cumplimiento de reglas de estilo</li>
+        <li><strong>ReSharper:</strong>
