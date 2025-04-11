@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nomenclatura de Variables y Constantes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+    }
+    header {
+      background-color: #1c1c1c;
+      padding: 30px;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 40px;
+      color: #00d8ff;
+    }
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 40px 20px;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    h2 {
+      color: #ffd700;
+    }
+    p, li {
+      font-size: 18px;
+      line-height: 1.7;
+    }
+    ul {
+      margin-bottom: 30px;
+    }
+    .example-box {
+      background-color: rgba(0, 0, 0, 0.4);
+      border-left: 5px solid #00d8ff;
+      padding: 15px 20px;
+      margin: 20px 0;
+      font-family: monospace;
+      color: #aaffff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+    table, th, td {
+      border: 1px solid #aaa;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background-color: #00d8ff;
+      color: #000;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #111;
+      margin-top: 40px;
+      color: #aaa;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Nomenclatura de Variables y Constantes</h1>
+</header>
+<div class="container">
+  <h2>¿Qué son?</h2>
+  <p>Son nombres que usamos para identificar datos en la memoria de un programa. Una buena nomenclatura facilita la lectura, mantenimiento y entendimiento del código.</p>
+
+  <h2>Reglas generales</h2>
+  <ul>
+    <li>Deben comenzar con letra (no números ni caracteres especiales)</li>
+    <li>No deben contener espacios ni acentos</li>
+    <li>Usar nombres descriptivos que indiquen su función</li>
+    <li>Evitar abreviaturas excesivas o confusas</li>
+  </ul>
+
+  <h2>Estilos comunes de nomenclatura</h2>
+  <table>
+    <tr>
+      <th>Estilo</th>
+      <th>Ejemplo</th>
+      <th>Uso común</th>
+    </tr>
+    <tr>
+      <td>camelCase</td>
+      <td>nombreUsuario</td>
+      <td>Variables y funciones en JavaScript, Java</td>
+    </tr>
+    <tr>
+      <td>PascalCase</td>
+      <td>NombreUsuario</td>
+      <td>Clases y constructores</td>
+    </tr>
+    <tr>
+      <td>snake_case</td>
+      <td>nombre_usuario</td>
+      <td>Python, bases de datos</td>
+    </tr>
+    <tr>
+      <td>UPPER_CASE</td>
+      <td>MAX_TAMANO</td>
+      <td>Constantes</td>
+    </tr>
+  </table>
+
+  <h2>Ejemplos prácticos</h2>
+  <div class="example-box">
+    let nombreUsuario = "Andrés";<br>
+    const MAX_INTENTOS = 5;<br>
+    let resultado_final = 98;
+  </div>
+
+  <h2>Consejos adicionales</h2>
+  <ul>
+    <li>Usa el inglés si tu código está en proyectos internacionales</li>
+    <li>Mantén la consistencia en todo tu proyecto</li>
+    <li>Documenta el significado si el nombre no es 100% claro</li>
+  </ul>
+
+  <p><strong>Recuerda:</strong> un buen nombre puede ahorrarte horas de confusión en el futuro.</p>
+</div>
+<footer>
+  Diseñado por Andrés Carrero | SENA - 2025
+</footer>
+</body>
+</html>
